@@ -29,4 +29,6 @@ int main() {
     Solution s;
     vector<int> a{1, 2};
     s.subsets(a);
+    cout << "aa" << endl;
+    return 0;
 }
