@@ -1,3 +1,2 @@
 # leetcode
-This is the library of my solutions in Leetcode.
-I hope these things can help me to warm up my knowledge of algorithm and data structure.
+少壮不努力，老大徒伤悲
