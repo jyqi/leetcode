@@ -13,6 +13,7 @@ using namespace std;
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
+        if(head == NULL) return true;
         ListNode *slow, *fast;
         slow = head;
         fast = head->next;
@@ -22,6 +23,7 @@ public:
         }
         ListNode *p = head;
         ListNode *q = slow->next;
+        slow->next = NULL;
         ListNode *end = NULL;
         while(q) {
         	ListNode *tmp = q->next;
@@ -29,12 +31,12 @@ public:
         	end = q;
         	q = tmp;
         }
-        while(head && end) {
+        while(end) {
         	if(head->val != end->val) return false;
         	head = head->next;
         	end = end->next;
         }
-        if(head || end) return false;
+        //if(head || end) return false;
         return true;
     }
 };
