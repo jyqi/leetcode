@@ -18,6 +18,17 @@ public:
     		return -1;
     	}
         // write your code here
-        long long product =  fastPower(a, b, n / 2;)
+        long long product =  fastPower(a, b, n / 2);
+        product = (product * product) % b;
+        if(1 == n % 2) {
+        	product = (product * a) % b;
+        }
+        return (int)product;
     }
 };
+
+int main() {
+	 Solution s;
+	 cout << s.fastPower(33, 1000000007, 10) << endl;
+	 return 0;
+}
