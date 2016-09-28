@@ -22,7 +22,7 @@ public:
 	 	if(!l2) return l1;
 	 	ListNode *dummy = new ListNode(-1);
 	 	ListNode *p = dummy;
-	 	p->next = l1;
+	 	p->next = l1;TOP
 	 	ListNode *q = l1;
 	 	int sum = 0;
 	 	int carry = 0;
