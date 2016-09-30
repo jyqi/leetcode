@@ -21,28 +21,29 @@ public:
 		if(!root) {
 			return;
 		}
-		res.push_back(root->val);
 		solve(root->left, res);
+		res.push_back(root->val);
 		solve(root->right, res);
 	}
 	*/
-    vector<int> preorderTraversal(TreeNode* root) {
+    vector<int> inorderTraversal(TreeNode* root) {
   		vector<int> res;
   		if(!root) {
   			return res;
   		}
   		stack<TreeNode *> s;
   		TreeNode *cur;
-  		s.push(root);
-  		while(!s.empty()) {
-  			cur = s.top();
-  			s.pop();
-  			res.push_back(cur->val);
-  			if(cur->right) {
-  				s.push(cur->right);
+  		//s.push(root);
+  		while(!s.empty() || root) {
+  			if(root != NULL) {
+  				s.push(root);
+  				root = root->left;
   			}
-  			if(cur->left) {
-  				s.push(cur->left);
+  			else {
+  				root = s.top();
+  				s.pop();
+  				res.push_back(root->val);
+  				root = root->right;
   			}
   		}
   		return res;
@@ -64,7 +65,7 @@ int main() {
 	TreeNode *tree = buildTree(2, val);
 	Solution s;
 	std::vector<int> res;
-	res = s.preorderTraversal(tree);
+	res = s.inorderTraversal(tree);
 	for(int i = 0; i < res.size(); i++) {
 		cout << res[i] << endl;
 	}
