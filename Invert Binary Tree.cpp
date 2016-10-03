@@ -1,46 +1,81 @@
-/*
-Invert a binary tree.
-
-     4
-   /   \
-  2     7
- / \   / \
-1   3 6   9
-to
-     4
-   /   \
-  7     2
- / \   / \
-9   6 3   1
-Trivia:
-This problem was inspired by this original tweet by Max Howell:
-Google: 90% of our engineers use the software you wrote (Homebrew), but you can’t invert a binary tree on a whiteboard so fuck off.
-*/
-
-//A simple simulated problem in binary tree
-//Using recursion to solve this
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <queue>
+using namespace std;
 
 /**
  * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
  */
+  struct TreeNode {
+      int val;
+      TreeNode *left;
+      TreeNode *right;
+      TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+  };
+
+struct RESULT {
+  TreeNode *node;
+  bool isAncestor;
+};
+
 class Solution {
 public:
-    void do_invert(TreeNode* root) {
-        if(root == NULL) return;
-        TreeNode *tmp = root->left;
-        root->left = root->right;
-        root->right = tmp;
-        do_invert(root->left);
-        do_invert(root->right);
-    }
+  /*
+  Recursive
     TreeNode* invertTree(TreeNode* root) {
-        do_invert(root);
-        return root;
+      if(!root) {
+        return NULL;
+      }      
+      TreeNode *tmp = root->left;
+      root->left = invertTree(root->right);
+      root->right = invertTree(tmp);
+      return root;
+    }
+    */
+    TreeNode* invertTree(TreeNode* root) {
+      if(!root) {
+        return NULL;
+      }
+      stack<TreeNode *> s;
+      TreeNode *cur;
+      s.push(root);
+      while(!s.empty()) {
+        cur = s.top();
+        s.pop();
+        TreeNode *tmp = cur->left;
+        cur->left = cur->right;
+        cur->right = tmp;
+        if(cur->left) {
+          s.push(cur->left);
+        }
+        if(cur->right) {
+          s.push(cur->right);
+        }
+      }
+      return root;
     }
 };
+
+TreeNode *buildTree(int depth, int &val) {
+	TreeNode *root = new TreeNode(val);
+	if(depth == 0) {
+		return root;
+	}
+	root->left = buildTree(depth - 1, ++val);
+	root->right = buildTree(depth - 1, ++val);
+	return root;
+}
+
+int main() {
+	int val = 1;
+	// TreeNode *tree = buildTree(2, val);
+  TreeNode *tree = new TreeNode(1);
+  tree->left = new TreeNode(2);
+  tree->right = new TreeNode(2);
+  // tree->right->left = new TreeNode(4);
+  // tree->right->right = new TreeNode(5);
+	Solution s;
+	cout << s.invertTree(tree) << endl;
+	return 0;
+}
