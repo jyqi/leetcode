@@ -1,45 +1,46 @@
-#include <queue>
-#include <iostream>
+#include "Model.h"
 using namespace std;
 
-  struct TreeNode {
-      int val;
-      TreeNode *left;
-      TreeNode *right;
-      TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-  };
-struct Tree {
-    TreeNode *root;
-    int level;
-    Tree(TreeNode *troot, int tlevel) {
-        level = tlevel;
-        root = troot;
-    }
- };
 class Solution {
 public:
+	void solve(TreeNode *root, int &res, int depth) {
+		if(!root->left && !root->right) {
+			if(res > depth) {
+				res = depth;
+			}
+			return;
+		}
+		if(root->left) {
+			solve(root->left, res, depth + 1);
+		}
+		if(root->right) {
+			solve(root->right, res, depth + 1);	
+		}
+	}
     int minDepth(TreeNode* root) {
-        if(root == NULL) return 0;
-        Tree *troot = new Tree(root, 1);
-        queue<Tree *> q;
-        q.push(troot);
-        int res = 0;
-        while(!q.empty()) {
-            Tree *tmp = q.front();
-            q.pop();
-            if(tmp->root->left == NULL && tmp->root->right == NULL) {
-                res = tmp->level;
-                break;
-            }
-            else {
-                if(tmp->root->left != NULL) q.push(new Tree(tmp->root->left, tmp->level + 1));
-                if(tmp->root->right != NULL) q.push(new Tree(tmp->root->right, tmp->level + 1));
-            }
-        }
-        return res;
+    	if(!root) {
+    		return 0;
+    	}
+    	int res = INT_MAX;
+    	solve(root, res, 1);	    
+    	return res;
     }
 };
 
-int main() {
+TreeNode *buildTree(int depth, int &val) {
+	TreeNode *root = new TreeNode(val);
+	if(depth == 0) {
+		return root;
+	}
+	root->left = buildTree(depth - 1, ++val);
+	root->right = buildTree(depth - 1, ++val);
+	return root;
+}
 
+int main() {
+	int val = 1;
+	TreeNode *tree = buildTree(2, val);
+	Solution s;
+	cout << s.minDepth(tree) << endl;
+	return 0;
 }

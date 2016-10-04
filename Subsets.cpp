@@ -1,34 +1,40 @@
-//寻找一个数组的所有子集
-//采用深度优先搜索的方法，因为子集中，元素只存在选与不选
-//空间复杂度为O(n),时间复杂度为O(n^2)
-
-#include<iostream>
+#include "Model.h"
 using namespace std;
 
 class Solution {
 public:
-    vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> res;
-        vector<int> tRes;
+	void solve(const vector<int> &nums, vector<int> &tmp, vector<vector<int> > &res, int cur) {
+		res.push_back(tmp);
+		for(int i = cur; i < nums.size(); i++) {
+			tmp.push_back(nums[i]);
+			solve(nums, tmp, res, i + 1);
+			tmp.pop_back();
+		}
+	}
+
+    vector<vector<int> > subsets(vector<int>& nums) {
+        vector<vector<int> > res;
+        if(nums.size() == 0) {
+        	return res;
+        } 
         sort(nums.begin(), nums.end());
-        solve(res, tRes, nums, 0, nums.size());
+        vector<int> tmp;
+        solve(nums, tmp, res, 0);
         return res;
-    }
-    void solve(vector<vector<int>> &res, vector<int> tRes, vector<int> nums, int nBegin, int nEnd) {
-        if(nBegin == nEnd) {
-            res.push_back(tRes);
-            return;
-        }
-        solve(res, tRes, nums, nBegin + 1, nEnd);
-        tRes.push_back(nums[nBegin]);
-        solve(res, tRes, nums, nBegin + 1, nEnd);
     }
 };
 
 int main() {
-    Solution s;
-    vector<int> a{1, 2};
-    s.subsets(a);
-    cout << "aa" << endl;
-    return 0;
+	Solution s;
+	vector<vector<int> > res;
+	int arr[] = {1, 2, 3};
+	vector<int> v(arr, arr + 3);
+	res = s.subsets(v);
+	for(int i = 0; i < res.size(); i++) {
+		for(int j = 0; j < res[i].size(); j++) {
+			cout << res[i][j] << " ";
+		}
+		cout << endl;
+	}
+	return 0;
 }
